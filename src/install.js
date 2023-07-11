@@ -4,6 +4,7 @@ import Link from './components/link'
 export let _Vue
 
 export function install (Vue) {
+  // 避免重复注册
   if (install.installed && _Vue === Vue) return
   install.installed = true
 
