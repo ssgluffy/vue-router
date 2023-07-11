@@ -27,6 +27,7 @@ export function createRouteMap (
   })
 
   // ensure wildcard routes are always at the end
+  // 路径通配符，手动移到最后
   for (let i = 0, l = pathList.length; i < l; i++) {
     if (pathList[i] === '*') {
       pathList.push(pathList.splice(i, 1)[0])
