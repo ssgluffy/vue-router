@@ -4,6 +4,7 @@ import Link from './components/link'
 export let _Vue
 
 export function install (Vue) {
+  // 保证同一个只挂载一次
   if (install.installed && _Vue === Vue) return
   install.installed = true
 
@@ -13,6 +14,7 @@ export function install (Vue) {
 
   const registerInstance = (vm, callVal) => {
     let i = vm.$options._parentVnode
+    // 取实例对象 $options._parentVnode.data.registerRouteInstance 方法进行注册实例
     if (isDef(i) && isDef(i = i.data) && isDef(i = i.registerRouteInstance)) {
       i(vm, callVal)
     }
