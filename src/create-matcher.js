@@ -22,6 +22,7 @@ export function createMatcher (
 ): Matcher {
   const { pathList, pathMap, nameMap } = createRouteMap(routes)
 
+  // 添加对应路径数组、对象映射，名字映射
   function addRoutes (routes) {
     createRouteMap(routes, pathList, pathMap, nameMap)
   }
@@ -44,6 +45,7 @@ export function createMatcher (
     }
   }
 
+  // 获取路径数组中，所有对应的路由信息 record 对象
   function getRoutes () {
     return pathList.map(path => pathMap[path])
   }
