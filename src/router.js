@@ -85,6 +85,10 @@ export default class VueRouter {
     return this.history && this.history.current
   }
 
+  // 在 beforeCreated 钩子中执行
+  // 1. 初始化了 this.app
+  // 2. 使用 this.history.transitionTo 触发路由变化
+  // 3. 使用 this.history.listen 监听路由变化，确保每个实例下 _route 属性都为当前路由组件
   init (app: any /* Vue component instance */) {
     process.env.NODE_ENV !== 'production' &&
       assert(
@@ -93,6 +97,7 @@ export default class VueRouter {
           `before creating root instance.`
       )
 
+    // 插入对应组件实例
     this.apps.push(app)
 
     // set up app destroyed handler
@@ -103,6 +108,7 @@ export default class VueRouter {
       if (index > -1) this.apps.splice(index, 1)
       // ensure we still have a main app or null if no apps
       // we do not release the router so it can be reused
+      // 销毁组件实例后，更新展示的实例
       if (this.app === app) this.app = this.apps[0] || null
 
       if (!this.app) this.history.teardown()
@@ -166,6 +172,7 @@ export default class VueRouter {
     this.history.onError(errorCb)
   }
 
+  // push 和 replace 方法实际调用的都是 history 对象中的方法
   push (location: RawLocation, onComplete?: Function, onAbort?: Function) {
     // $flow-disable-line
     if (!onComplete && !onAbort && typeof Promise !== 'undefined') {
@@ -188,6 +195,7 @@ export default class VueRouter {
     }
   }
 
+  // 以下三个方法都是调用 history 中的方法
   go (n: number) {
     this.history.go(n)
   }
@@ -269,6 +277,7 @@ export default class VueRouter {
   }
 }
 
+// 导航守卫，注册入对应数组，并返回销毁方法
 function registerHook (list: Array<any>, fn: Function): Function {
   list.push(fn)
   return () => {
