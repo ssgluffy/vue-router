@@ -14,6 +14,7 @@ export function install (Vue) {
 
   const registerInstance = (vm, callVal) => {
     let i = vm.$options._parentVnode
+    // 使用 vm.$options._parentVnode.data.registerRouteInstance 方法进行注册实例
     if (isDef(i) && isDef(i = i.data) && isDef(i = i.registerRouteInstance)) {
       i(vm, callVal)
     }
@@ -37,13 +38,16 @@ export function install (Vue) {
   })
 
   Object.defineProperty(Vue.prototype, '$router', {
+    // 实际获取 this.$options.router
     get () { return this._routerRoot._router }
   })
 
   Object.defineProperty(Vue.prototype, '$route', {
+    // 实际获取 this.$options.router.history.current
     get () { return this._routerRoot._route }
   })
 
+  // 默认注册这两个组件
   Vue.component('RouterView', View)
   Vue.component('RouterLink', Link)
 
